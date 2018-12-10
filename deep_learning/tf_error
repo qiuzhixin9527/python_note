@@ -1,0 +1,9 @@
+1.LSTM
+ problem(问题)
+	ValueError: Variable train/rnn/basic_lstm_cell/kernel already exists, disallowed
+ solve(解决)：
+ 	with tf.variable_scope("RNN", reuse=True):
+        x = tf.unstack(x, timesteps, 1)
+        lstm_cell = rnn.BasicLSTMCell(num_hidden, forget_bias=1.0)
+
+        outputs, states = rnn.static_rnn(lstm_cell, x, dtype=tf.float32)

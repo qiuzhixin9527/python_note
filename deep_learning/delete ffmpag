@@ -1,0 +1,2 @@
+1. rpm -qa|grep ffmpeg
+2.rpm -e 安装包名字(中间有空格)

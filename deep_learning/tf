@@ -1,0 +1,163 @@
+import tensorflow as tf
+1.tf.argmax(Z3, 1)
+	test = np.array([[1, 2, 3], [2, 3, 4], [5, 4, 3], [8, 7, 2]])
+	np.argmax(test, 0)　　　＃输出：array([3, 3, 1]
+	np.argmax(test, 1)　　　＃输出：array([2, 2, 0, 0]
+
+	test[0] = array([1, 2, 3])
+	test[1] = array([2, 3, 4])
+	test[2] = array([5, 4, 3])
+	test[3] = array([8, 7, 2])
+	# output   :    [3, 3, 1]  
+
+	test[0] = array([1, 2, 3])  #2
+	test[1] = array([2, 3, 4])  #2
+	test[2] = array([5, 4, 3])  #0
+	test[3] = array([8, 7, 2])  #0
+
+2.tf.equal(A, B)是对比这两个矩阵或者向量的相等的元素，如果是相等的那就返回True，反正返回False，返回的值的矩阵维度和A是一样的
+
+3.cast(x, dtype, name=None) 
+	将x的数据格式转化成dtype.例如，原来x的数据格式是bool， 
+	那么将其转化成float以后，就能够将其转化成0和1的序列。反之也可以
+
+4.tf.reduce_sum理解为压缩求和，用于降维
+	# 'x' is [[1, 1, 1]
+	#         [1, 1, 1]]
+	#求和
+	tf.reduce_sum(x) ==> 6
+	#按列求和
+	tf.reduce_sum(x, 0) ==> [2, 2, 2]
+	#按行求和
+	tf.reduce_sum(x, 1) ==> [3, 3]
+	#按照行的维度求和
+	tf.reduce_sum(x, 1, keep_dims=True) ==> [[3], [3]]
+	#行列求和
+	tf.reduce_sum(x, [0, 1]) ==> 6
+
+5.tf.square()是对a里的每一个元素求平方	
+6.tf.maximum 函数返回 x 和 y 的最大值（即表达式：x > y ? x : y）
+7.tf.random_normal()函数用于从服从指定正太分布的数值中取出指定个数的值。
+	  shape: 输出张量的形状，必选
+    mean: 正态分布的均值，默认为0
+    stddev: 正态分布的标准差，默认为1.0
+    dtype: 输出的类型，默认为tf.float32
+    seed: 随机数种子，是一个整数，当设置之后，每次生成的随机数都一样
+    name: 操作的名称
+8.np.linalg.norm(x, ord=None, axis=None, keepdims=False)
+
+9.tf.negative()取反
+	import tensorflow as tf;
+	A=-5
+	B=2
+	with tf.Session() as sess:
+   	print(sess.run(tf.negative(A)))　　　＃输出结果为５
+   	print(sess.run(tf.negative(B)))　　　＃输出结果为－２
+
+10.	tf.maximum：用法tf.maximum(a,b),返回的是a,b之间的最大值，
+	tf.miniimum：用法tf.miiinimum(a,b),返回的是a,b之间的最小值，
+	tf.argmax：用法tf.argmax(a,dimension),返回的是a中的某个维度最大值的索引，
+	tf.argmain：用法tf.argmin(a,dimension),返回的是a中的某个维度最小值的索引，	
+	import tensorflow as tf;  
+	 
+	a = [1,5,3]
+	 
+	f1 = tf.maximum(a, 3)
+	f2 = tf.minimum(a, 3)
+	f3 = tf.argmax(a, 0)
+	f4 = tf.argmin(a, 0)
+	 
+	with tf.Session() as sess:
+		print sess.run(f1)#print f1.eval()
+		print sess.run(f2)
+		print sess.run(f3)
+		print sess.run(f4)
+
+11.numpy中array和asarray的区别
+	array和asarray都可以将结构数据转化为ndarray，但是主要区别就是当数据源是ndarray时，array仍然会copy出一个副本，占用新的内存，但asarray不会。
+	import numpy as np
+	#example 2:
+	arr1=np.ones((3,3))
+	arr2=np.array(arr1)
+	arr3=np.asarray(arr1)
+	arr1[1]=2
+	print 'arr1:\n',arr1
+	print 'arr2:\n',arr2
+	print 'arr3:\n',arr3
+	》》》》》》》》》》》》》》》
+	arr1:
+	[[ 1.  1.  1.]
+	 [ 2.  2.  2.]
+	 [ 1.  1.  1.]]
+	arr2:
+	[[ 1.  1.  1.]
+	 [ 1.  1.  1.]
+	 [ 1.  1.  1.]]
+	arr3:
+	[[ 1.  1.  1.]
+	 [ 2.  2.  2.]
+	 [ 1.  1.  1.]]
+
+12.tf.matmul()
+	# 2-D tensor `a`
+	a = tf.constant([1, 2, 3, 4, 5, 6], shape=[2, 3]) => [[1. 2. 3.]
+	                                                      [4. 5. 6.]]
+	# 2-D tensor `b`
+	b = tf.constant([7, 8, 9, 10, 11, 12], shape=[3, 2]) => [[7. 8.]
+	                                                         [9. 10.]
+	                                                           [11. 12.]]
+	c = tf.matmul(a, b) => [[58 64]
+	                        [139 154]]
+
+13.tf.metrics.accuracy算的是什么？
+	简单的讲，它计算的是整个session生存期内，所有feed_dict中的数据的正确率。
+
+	不是单个batch的正确率
+
+	计算batch使用：
+	correct_prediction = tf.equal( tf.argmax(y_, 1), tf.argmax(output, 1))
+	accuracy = tf.reduce_mean( tf.cast(correct_prediction, tf.float32))
+
+14.tf.nn.sparse_softmax_cross_entropy_with_logits & "ValueError: Rank mismatch: Rank of labels (received 2) should equal rank of logits minus 1 (received 2).
+	my solution is changing " 
+	loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+	logits=logits, labels=tf.cast(labels, dtype=tf.int32)))"
+		to 
+	"loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+	logits=logits_train, labels=tf.argmax(tf.cast(labels, dtype=tf.int32),1)))"
+
+15.tf.placeholder(dtype, shape=None, name=None)
+
+16.tf.concat, tf.stack和tf.unstack的用法
+	tf.concat相当于numpy中的np.concatenate函数，用于将两个张量在某一个维度(axis)合并起来，例如：
+	a = tf.constant([[1,2,3],[3,4,5]]) # shape (2,3)
+	b = tf.constant([[7,8,9],[10,11,12]]) # shape (2,3)
+	ab1 = tf.concat([a,b], axis=0) # shape(4,3)
+	ab2 = tf.concat([a,b], axis=1) # shape(2,6)
+
+	tf.stack其作用类似于tf.concat，都是拼接两个张量，而不同之处在于，tf.concat拼接的是两个shape完全相同的张量，并且产生的张量的阶数不会发生变化，而tf.stack则会在新的张量阶上拼接，产生的张量的阶数将会增加，例如：
+	a = tf.constant([[1,2,3],[3,4,5]]) # shape (2,3)
+	b = tf.constant([[7,8,9],[10,11,12]]) # shape (2,3)
+	ab = tf.stack([a,b], axis=0) # shape (2,2
+
+	而tf.unstack与tf.stack的操作相反，是将一个高阶数的张量在某个axis上分解为低阶数的张量，例如：
+	a = tf.constant([[1,2,3],[3,4,5]]) # shape (2,3)
+	b = tf.constant([[7,8,9],[10,11,12]]) # shape (2,3)
+	ab = tf.stack([a,b], axis=0) # shape (2,2,3)
+
+	a1 = tf.unstack(ab, axis=0)
+
+17.tf.nn.conv2d, tf.layers.conv2d, tf.contrib.layers.conv2d三者之间的区别
+	其它三个方法，除了参数的差异之外，基本没什么不同，其实现都是一样的。
+	tf.layers.conv2d(inputs, filters, kernel_size, strides=(1,1), 
+
+                            padding='valid', data_format='channels_last', 
+                　　　 dilation_rate=(1,1), activation=None, 
+                　　　 use_bias=True, kernel_initializer=None, 
+                　　　 bias_initializer=init_ops.zeros_initializer(), 
+                　　　 kernel_regularizer=None, 
+                　　　 bias_regularizer=None, 
+                　　　 activity_regularizer=None, trainable=True, 
+                　　　 name=None, reuse=None)
+
+	tf.nn.conv2d(input, filter, strides, padding, use_cudnn_on_gpu=None, data_format=None, name=None)

@@ -1,0 +1,7 @@
+1.faiss-cpu
+  conda install -c pytorch faiss-cpu 
+  出现问题
+	ImportError: No module named '_swigfaiss'
+	由于conda换成清华源所以mkl版本太低
+  解决方法
+	用pip安装mkl

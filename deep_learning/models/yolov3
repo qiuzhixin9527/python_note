@@ -1,0 +1,48 @@
+yolov3迁移学习
+一.前期数据准备
+1./media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/yolo3/VOCdevkit/VOC2007/JPEGImages 改为自己的数据集,注意需要是JPG图片
+2./media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/yolo3/VOCdevkit/VOC2007/Annotations 删除原来的xml,将自己的xml放到这里面
+3./media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/yolo3/VOCdevkit/VOC2007/ImageSets/Main/train.txt 放入训练集中图片的名字,但是不要后缀,如1.JPG, 只留1的部分(  将main中其他文件都删除,只留train.txt,val.txt)	
+4./media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/yolo3/VOCdevkit/VOC2007/ImageSets/Main/val.txt 放入测试集中图片的名字,但是不要后缀,如1.xml, 只留1的部分
+5.在voc_label.py中
+修改sets为训练样本集的名称
+sets=[('2007', 'train')]
+修改classes为训练样本集的类标签
+classes=[str(i) for i in range(10)]
+运行和VOCdevkit同一目录下的文件voc_label.py生成2007_train.txt,2007_val.txt, VOCdevkit/VOC2007/labels
+
+二.running train
+1. git clone https://github.com/pjreddie/darknet  
+	cd darknet
+2.修改Makefile配置，使用GPU训练，修改如下： 
+	GPU=1 #如果使用GPU设置为1，CPU设置为0
+	CUDNN=1  #如果使用CUDNN设置为1，否则为0
+3.下载Imagenet上预先训练的权重
+4.修改cfg/voc.data
+	classes= 10  #classes为训练样本集的类别总数
+	train  = /home/user/darknet/2007_train.txt  #train的路径为训练样本集所在的路径
+	valid  = /home/user/darknet/2007_val.txt  #valid的路径为验证样本集所在的路径
+	names = data/voc.names  #names的路径为data/voc.names文件所在的路径
+	backup = backup
+5.在darknet文件夹下面新建文件夹backup
+6.修改cfg/yolov3-voc.cfg
+[convolutional]
+size=1
+stride=1
+pad=1
+filters=45  #3*(10+4+1)
+activation=linear
+
+[yolo]
+mask = 6,7,8
+anchors = 10,13,  16,30,  33,23,  30,61,  62,45,  59,119,  116,90,  156,198,  373,326
+classes=10  #类别
+num=9
+jitter=.3
+ignore_thresh = .5
+truth_thresh = 1
+random=0  #1，如果显存很小，将random设置为0，关闭多尺度训练；
+7.开始训练
+./darknet detector train cfg/voc.data cfg/yolov3-voc.cfg darknet53.conv.74
+8.识别
+./darknet detector test cfg/voc.data cfg/yolov3-voc.cfg backup/yolov3-voc.backup /home/elens/Desktop/coupon_mini/263805063_1537345743.png

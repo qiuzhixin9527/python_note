@@ -1,0 +1,9 @@
+1.抽人脸
+	python align_dataset_mtcnn.py /home/elens/Downloads/facenet/image_test/ /home/elens/Downloads/facenet/result/ --image_size 160 --margin 44 --gpu_memory_fraction 0.4
+2.聚类
+ python facenet/src/clustering.py --model_dir /home/elens/Desktop/facenet/src/models/20180408-102900 --batch_size 30 --input /media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/spider/3000_aligned --output /media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/spider/clustered
+3.整理数据集
+4.训练
+	python3 train_softmax.py --gpu_memory_fraction 0.8 --pretrained_model /home/elens/Desktop/facenet/src/models/20180402-114759/  --data_dir /media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b061f/spider/train_44/ --optimizer RMSPROP --learning_rate 0.01 --weight_decay 1e-4 --max_nrof_epochs 500 --validation_set_split_ratio 0.2 --min_nrof_val_images_per_class 3 --epoch_size 200 --models_base_dir /home/elens/Desktop/facenet/src/models/star_model/
+
+5.抽特征
