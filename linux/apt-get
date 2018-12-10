@@ -1,0 +1,6 @@
+1.Try 'apt-get -f install' with no packages (or specify a solution)问题的解决
+	#删除提示的bazel和nvidia-docker两个未完全安装的软件。
+	$sudo dpkg --purge bazel
+2.you might want to run 'apt-get -f install' to correct these
+	$ sudo apt-get --fix-broken install
+

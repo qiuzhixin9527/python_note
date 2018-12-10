@@ -1,0 +1,8 @@
+1.进入你要挂载的文件目录:/media/elens
+2.在当前目录输入:df -h
+  查看你的硬盘所挂载的位置:/dev/sdb        1.8T  571G  1.2T  33% /media/elens/a18ee7f9-82fb-409a-9a3a-2bf86c2b06
+3.编辑 sudo vim /etc/fstab
+4.在最下方加入:
+  /dev/sdb /media/elens/a18ee7f9-82fb-409a-9a3a-2bf86 ntfs defaults 0 0
+
+

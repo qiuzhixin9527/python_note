@@ -1,0 +1,30 @@
+1.pip install supervisor
+2.生成配置文件
+  echo_supervisord_conf > /etc/supervisord.conf
+3.cd /etc/supervisor/conf.d中创建自己的app命令
+4. vim heatmap.conf
+ [program:heatmap]
+ command=/home/qzx/miniconda3/envs/py3.5/bin/python3.5 /home/qzx/learngit/yilanqunzhi/yilanqunzhi_project/heatmap/manage.py runserver
+ directory=/home/qzx/learngit/yilanqunzhi/yilanqunzhi_project/heatmap
+ autostart=true
+ autorestart=true
+ logfile=/home/qzx/learngit/yilanqunzhi/yilanqunzhi_project/heatmap/heatmap.log
+ stderr_logfile=/var/log/supervisor/test.err.log
+ stdout_logfile=/var/log/supervisor/test.out.log
+5.进入/etc/supervisor输入vim supervisord.conf在最下面加上
+	[include]
+	files = /etc/supervisor/conf.d/*.conf
+6.启动
+  sudo service supervisor start
+7.停止
+  sudo lsof -i:8000
+  kill pid
+查看所有运行supervisor的程序
+ps -ef | grep supervisor
+删除所有含有supervisor的程序
+ps -aux | grep supervisor | awk '{print $2}' | xargs kill
+
+
+启动supervisor时的问题(用supervisord 查看启动是否有问题)：
+1.IOError: [Errno 13] Permission denied: '/var/log/supervisor/supervisord.log'
+  解决 vim /etc/supervisor/supervisor.conf 中 修改 user=root
