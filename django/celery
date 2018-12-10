@@ -1,0 +1,36 @@
+1.在settings.py中配置
+BROKER_URL = 'redis://localhost:6379/'
+
+CELERY_RESULT_BACKEND='redis://localhost:6379/'
+2. 在celery.py中配置
+
+#不需要os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_celery.settings')(自己项目settings的路径)
+
+CELERY_BROKER_URL = 'redis://localhost:6379/'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+app = Celery('test_celery'(app的名),
+             backend=CELERY_RESULT_BACKEND,
+             broker=CELERY_BROKER_URL)
+app.conf.task_serializer = 'json'
+app.conf.result_serializer = 'json'
+
+3.设置定时任务
+app.conf.beat_schedule = {
+    'add-every-30-seconds': {
+        'task': 'test_celery.tasks.add',
+        'schedule': timedelta(seconds=3),
+        'args': (16, 6)
+    },
+}
+4.启动celery命令
+启动worker
+ celery -A test_celery.tasks worker -l info
+启动定时任务 
+celery -A test_celery beat -l info
+
+启动队列对应的work
+ /home/elens/miniconda3/envs/py3/bin/celery -A index.celery worker -l info -c 1 -n workerA.%h -Q f
+ celery -A index.celery worker -l info -c 1 -n vc1 -Q for_task_A
+or_task_A
+ celery -A index.celery worker -l info -c 1 -n workerB.%h -Q for_task_B
+
