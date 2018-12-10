@@ -1,0 +1,25 @@
+1.python环境的导入导出
+	1.在生产环境和开发环境都安装pip
+	2.在开发环境中 pip freeze > requirement.txt
+	3.上传requirement.txt生产环境之后，pip install -r requirement.txt
+		出现问题Cannot uninstall 'html5lib'. It is a distutils installed project and thus we cannot accurately....
+		进入/home/qzx/miniconda3/envs/py3.5/lib/python3.5/site-packages中删除 ....egg-info
+
+2.conda快捷进入虚拟环境和环境的配置
+	sudo vim ~/.bashrc
+		export PATH="/home/qzx/miniconda3/bin:$PATH"
+		alias py3="source activate py3.5"
+	source ~/.bashrc
+3.pip换源
+	root用户:
+	#mkdir ~/.pip
+	#vim ~/.pip/pip.conf
+	ubuntu用户:
+	$mkdir ~/.pip
+	$vim ~/.pip/pip.conf
+	linux下，修改 ~/.pip/pip.conf (没有就创建一个)， 修改 index-url至tuna，内容如下：
+	 [global]
+	 index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+

@@ -1,0 +1,6 @@
+显示打印信息。
+
+lpstat -p
+进行测试：
+命令行打印文件：sudo lpr -P打印机名 要打印的文件名
+sudo lpr -PHP_LaserJet_Professional_M1136_MFP ./document/周报.docx

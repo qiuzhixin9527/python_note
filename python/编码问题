@@ -1,0 +1,11 @@
+1.Unicode转为中文
+    str.encode('utf-8').decode('unicode_escape')
+2.bytes 转为str
+	stdout = str(b'aaa', encoding = "utf8")
+
+3.python3 中文乱码
+	UnicodeEncodeError: 'ascii' codec can't encode character '\xfc' in position 4: ordinal not in range(128)
+	解决:export PYTHONIOENCODING=utf-8
+	可以吧这句话添加到~/.bashrc------export PYTHONIOENCODING=utf-8
+4.python 转换为json时候 汉字编码问题
+	json.dumps(myjson,ensure_ascii=False)
